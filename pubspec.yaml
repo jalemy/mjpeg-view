@@ -1,0 +1,21 @@
+name: mjpeg_view
+description: "Provide a viewer to play motion jpeg as a Flutter widget."
+version: 1.0.0
+homepage: https://github.com/jalemy/mjpeg_view
+issue_tracker: https://github.com/jalemy/mjpeg_view/issues
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.21.2
+  http: ^1.3.0
+  rxdart: ^0.28.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lints: ^5.1.1

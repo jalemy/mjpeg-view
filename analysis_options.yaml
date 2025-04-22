@@ -1,0 +1,16 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  plugins:
+    - custom_lint
+
+linter:
+  rules:
+    camel_case_extensions: true
+    depend_on_referenced_packages: true
+    file_names: true
+    control_flow_in_finally: true
+    prefer_single_quotes: true
+
+formatter:
+  page_width: 80
