@@ -22,6 +22,6 @@ These sources are good to try as well.(Be careful not to overload them.)
 
 This library is inspired by the following repository
 
-* [flutter_mjpg](https://github.com/mylisabox/flutter_mjpeg) by [jaumard](https://github.com/jaumard)
+* [flutter_mjpeg](https://github.com/mylisabox/flutter_mjpeg) by [jaumard](https://github.com/jaumard)
 
 Thank you for your great work<3
