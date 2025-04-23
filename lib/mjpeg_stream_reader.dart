@@ -38,8 +38,6 @@ class MjpegStreamReader {
   Stream<Uint8List> get stream => _controller.stream;
 
   Future<void> start() async {
-    print('${_client.toString()} , ${_client.hashCode}');
-
     if (_controller.isClosed) {
       logDebug('Stream controller closed.');
 
