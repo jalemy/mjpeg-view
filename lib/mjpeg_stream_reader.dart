@@ -54,12 +54,6 @@ class MjpegStreamReader {
       final request = Request('GET', Uri.parse(uri));
       final response = await _client.send(request).timeout(timeout);
 
-      if (_controller.isClosed) {
-        logDebug('Stream controller closed before response handling.');
-
-        return;
-      }
-
       if (response.statusCode >= 200 && response.statusCode < 300) {
         logDebug('Connected $uri - (status code: ${response.statusCode})');
 
