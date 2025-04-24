@@ -4,11 +4,11 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart';
 
-class MockStreamClient implements Client {
+class MockClient implements Client {
   final StreamController<List<int>> controller;
   final int statusCode;
 
-  MockStreamClient({
+  MockClient({
     required this.controller,
     required this.statusCode,
   });
@@ -18,10 +18,12 @@ class MockStreamClient implements Client {
     return Future.value(StreamedResponse(controller.stream, statusCode));
   }
 
-  // --- 以下、テストでは利用しないが実装が必要なメソッドたち ---
-
   @override
-  void close() {}
+  void close() {
+    controller.close();
+  }
+
+  // --- 以下、テストでは利用しないが実装が必要なメソッドたち ---
 
   @override
   Future<Response> delete(Uri url,
