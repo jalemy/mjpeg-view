@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -83,9 +82,8 @@ class MjpegStreamReader {
         );
 
         if (!_controller.isClosed) {
-          final error = HttpException(
+          final error = Exception(
             'Connection failed $uri - (status code: ${response.statusCode})',
-            uri: Uri.parse(uri),
           );
 
           _controller.addError(error, StackTrace.current);
