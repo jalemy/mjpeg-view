@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:mjpeg_view/utils.dart';
 
+/// MjpegStreamReader retrieves a motion jpeg(mjpeg) stream from the specified uri and publishes the jpeg frame.
 class MjpegStreamReader {
   final String uri;
   final Client _client;
@@ -15,19 +16,22 @@ class MjpegStreamReader {
   final _controller = StreamController<Uint8List>();
   StreamSubscription? _subscription;
 
-  // --- motion jpeg constants ---
+  /// --- motion jpeg constants ---
   static const _trigger = 0xFF;
   static const _soi = 0xD8;
   static const _eoi = 0xD9;
   static const _markerLength = 2;
   static const List<int> _soiSequence = [_trigger, _soi];
   static const List<int> _eoiSequence = [_trigger, _eoi];
-  // -----------------------------
 
   final List<int> _receivedBuffer = [];
   int _soiSearchStartIndex = 0;
   int _foundSoiIndex = -1;
 
+  /// Constructor
+  /// [uri] specifies the motion jpeg(mjpeg) stream url.
+  /// [client] specifies the HTTP client. If not specified, it is generated internally.
+  /// [timeout] specifies the HTTP connection timeout.
   MjpegStreamReader({
     required this.uri,
     Client? client,
@@ -37,6 +41,7 @@ class MjpegStreamReader {
 
   Stream<Uint8List> get stream => _controller.stream;
 
+  /// Connect to the specified uri, parses the chunks, and add jpeg frame to stream to view.
   Future<void> start() async {
     if (_controller.isClosed) {
       logDebug('Stream controller closed.');
@@ -44,7 +49,7 @@ class MjpegStreamReader {
       return;
     }
 
-    // reset status, and cancel existing subscription
+    /// reset status, and cancel existing subscription
     _resetState();
     _subscription?.cancel();
 
@@ -105,6 +110,8 @@ class MjpegStreamReader {
     _foundSoiIndex = -1;
   }
 
+  /// Cancel the subscription to stream, and reset the internal state.
+  /// [closeController] if true, close the internal streamcontroller.
   void stop({bool closeController = false}) {
     logDebug('Stopped listening.');
 
@@ -117,6 +124,10 @@ class MjpegStreamReader {
     }
   }
 
+  /// Cancel the subscription to stream, and reset the internal state,
+  /// then close the internal stream controller.
+  ///
+  /// if the HTTP client is internally generated, close it.
   void dispose() {
     logDebug('Disposing stream reader.');
 

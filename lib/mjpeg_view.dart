@@ -40,10 +40,10 @@ class MjpegView extends HookWidget {
   Widget build(BuildContext context) {
     final activeStream = useState<Stream<Uint8List>?>(null);
 
-    // state of reconnecting
+    /// state of reconnecting
     final reconnectTrigger = useState(0);
 
-    // Generate and start a MjpgStreamReader.
+    /// Generate and start a MjpgStreamReader.
     useEffect(() {
       final newReader = MjpegStreamReader(
         uri: uri,
@@ -51,15 +51,13 @@ class MjpegView extends HookWidget {
         timeout: timeout,
       );
 
-      // NOTE: calculate frame update time. ex: for 30 fps, 33.333... ≒ 33ms
+      /// NOTE: calculate frame update time. ex: for 30 fps, 33.333... ≒ 33ms
       final frameDuration = (fps > 0)
           ? Duration(milliseconds: (1000 / fps).round())
           : Duration.zero;
 
-      /**
-       * NOTE: frame control is performed using rxdart.
-       *       if fps is less than 0, frame control is not preformed.
-       */
+      /// NOTE: frame control is performed using rxdart.
+      ///       if fps is less than 0, frame control is not preformed.
       final streamToUse = (frameDuration > Duration.zero)
           ? newReader.stream.throttleTime(
               frameDuration,
@@ -76,12 +74,12 @@ class MjpegView extends HookWidget {
       };
     }, [uri, client, timeout, fps, reconnectTrigger.value]);
 
-    // Subscribe to MjpegStreamReader.
+    /// Subscribe to MjpegStreamReader.
     final snapshot = useStream(activeStream.value, initialData: null);
 
-    // ↓--- Building UI ---↓
+    /// ↓--- Building UI ---↓
 
-    // Error occurred.
+    /// Error occurred.
     if (snapshot.hasError) {
       logDebug('Displaying error widget.');
 
@@ -99,7 +97,7 @@ class MjpegView extends HookWidget {
             );
     }
 
-    // Stream Done.
+    /// Stream Done.
     if (snapshot.connectionState == ConnectionState.done) {
       logDebug('Displaying stream done widget.');
 
@@ -108,7 +106,7 @@ class MjpegView extends HookWidget {
           : _buildDoneWidget(width, height, 'Stream ended.');
     }
 
-    // Connection is active, normal.
+    /// Connection is active, normal.
     if (snapshot.hasData &&
         snapshot.connectionState == ConnectionState.active) {
       final imageBytes = snapshot.data!;
@@ -122,7 +120,7 @@ class MjpegView extends HookWidget {
       );
     }
 
-    // loading.
+    /// loading.
     logDebug(
       'Displaying loading widget. (connectionState: ${snapshot.connectionState})',
     );
